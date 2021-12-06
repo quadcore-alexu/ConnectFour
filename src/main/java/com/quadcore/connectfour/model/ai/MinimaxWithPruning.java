@@ -1,5 +1,6 @@
 package com.quadcore.connectfour.model.ai;
 
+import com.quadcore.connectfour.model.datastructures.TreeNode;
 import com.quadcore.connectfour.model.state.State;
 
 public class MinimaxWithPruning implements ConnectFourAI {
@@ -11,7 +12,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
     }
 
     @Override
-    public State play(State state) {
+    public TreeNode<State> play(State state) {
         return null;
     }
 

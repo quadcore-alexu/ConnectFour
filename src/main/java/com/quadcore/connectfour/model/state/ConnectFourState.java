@@ -40,7 +40,8 @@ public class ConnectFourState implements State {
         return null;
     }
 
-    private boolean isTerminal() {
+    @Override
+    public boolean isTerminal() {
         return false;
     }
 

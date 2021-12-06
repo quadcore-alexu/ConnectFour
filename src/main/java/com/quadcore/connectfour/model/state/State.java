@@ -14,5 +14,6 @@ public interface State {
     List<State> getNeighbours();
     State getNextState(Integer col);
     List<Integer> getAvailableColumns();
+    boolean isTerminal();
 
 }
