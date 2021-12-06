@@ -211,6 +211,11 @@ public class ConnectFourState implements State {
         return !state.contains(String.valueOf(State.EMPTY));
     }
 
+    @Override
+    public String getString() {
+        return state;
+    }
+
     private boolean isValidState(String state) {
         if (state == null) throw new NullPointerException("State representation can't be null");
         if (state.length() != Game.ROWS * Game.COLUMNS) return false;

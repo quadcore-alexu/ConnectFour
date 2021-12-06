@@ -20,4 +20,6 @@ public interface State {
 
     boolean isTerminal();
 
+    String getString();
+
 }
