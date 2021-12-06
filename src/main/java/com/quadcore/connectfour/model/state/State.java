@@ -1,6 +1,5 @@
 package com.quadcore.connectfour.model.state;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface State {
@@ -9,11 +8,16 @@ public interface State {
     char AI = 'C';
     char EMPTY = '0';
 
-    Double evaluate();
-    ArrayList<ArrayList<Character>> to2dArray();
+    double evaluate();
+
+    char[][] to2dArray();
+
     List<State> getNeighbours();
-    State getNextState(Integer col);
+
+    State getNextState(int col, char player);
+
     List<Integer> getAvailableColumns();
+
     boolean isTerminal();
 
 }

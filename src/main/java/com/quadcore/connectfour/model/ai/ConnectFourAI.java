@@ -5,6 +5,11 @@ import com.quadcore.connectfour.model.state.State;
 
 public interface ConnectFourAI {
 
-    TreeNode<State> play(State state);
+
+    TreeNode play(State state);
+
+    TreeNode getMinimaxTree();
+
+    int getNumberOfNodesExpanded();
 
 }

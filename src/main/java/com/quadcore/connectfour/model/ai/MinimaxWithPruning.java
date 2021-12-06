@@ -12,8 +12,18 @@ public class MinimaxWithPruning implements ConnectFourAI {
     }
 
     @Override
-    public TreeNode<State> play(State state) {
+    public TreeNode play(State state) {
         return null;
+    }
+
+    @Override
+    public TreeNode getMinimaxTree() {
+        return null;
+    }
+
+    @Override
+    public int getNumberOfNodesExpanded() {
+        return 0;
     }
 
 }

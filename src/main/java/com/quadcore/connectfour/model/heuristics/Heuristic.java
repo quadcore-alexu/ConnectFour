@@ -4,6 +4,6 @@ import com.quadcore.connectfour.model.state.State;
 
 public interface Heuristic {
 
-    Double evaluate(State state);
+    double evaluate(State state);
 
 }

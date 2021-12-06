@@ -10,7 +10,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
 
     private final int maxDepth;
     private double maxScore = Double.MAX_VALUE;
-    private TreeNode<State> root = null;
+    private TreeNode root = null;
 
 
     public MinimaxWithoutPruning(int maxDepth) {
@@ -18,12 +18,12 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
     }
 
     @Override
-    public TreeNode<State> play(State state) {
+    public TreeNode play(State state) {
         int depth = maxDepth;
-        root = new TreeNode<>(state, null);
-        TreeNode<State> optimalMove = null;
+        root = new TreeNode(state, null);
+        TreeNode optimalMove = null;
         for (State s : state.getNeighbours()) {
-            TreeNode<State> stateTreeNode = new TreeNode<>(s, root);
+            TreeNode stateTreeNode = new TreeNode(s, root);
             double childVal = minimize(depth - 1, stateTreeNode);
             if (childVal > maxScore) {
                 maxScore = childVal;
@@ -35,15 +35,15 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         return optimalMove;
     }
 
-    private double maximize(int depth, TreeNode<State> node) {
+    private double maximize(int depth, TreeNode node) {
 
-        if (depth == 0 || node.getValue().isTerminal())
-            return node.getValue().evaluate();
+        if (depth == 0 || node.getState().isTerminal())
+            return node.getState().evaluate();
 
-        List<State> nextStates = node.getValue().getNeighbours();
+        List<State> nextStates = node.getState().getNeighbours();
         double max = Double.MIN_VALUE;
         for (State s : nextStates) {
-            TreeNode<State> neighbourTreeNode = new TreeNode<>(s, node);
+            TreeNode neighbourTreeNode = new TreeNode(s, node);
             max = Math.max(max, this.minimize(depth - 1, neighbourTreeNode));
 
         }
@@ -51,15 +51,13 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         return max;
     }
 
-    private double minimize(int depth, TreeNode<State> node) {
-        if (depth == 0 || node.getValue().isTerminal())
-            return node.getValue().evaluate();
-        List<State> nextStates = node.getValue().getNeighbours();
+    private double minimize(int depth, TreeNode node) {
+        if (depth == 0 || node.getState().isTerminal())
+            return node.getState().evaluate();
+        List<State> nextStates = node.getState().getNeighbours();
         double min = Double.MAX_VALUE;
-        List<TreeNode<State>> minLevel = new ArrayList<>();
         for (State s : nextStates) {
-            TreeNode<State> neighbourTreeNode = new TreeNode<>(s, node);
-            minLevel.add(neighbourTreeNode);
+            TreeNode neighbourTreeNode = new TreeNode(s, node);
             min = Math.max(min, this.maximize(depth - 1, neighbourTreeNode));
 
         }
@@ -67,5 +65,13 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         return min;
     }
 
+    @Override
+    public TreeNode getMinimaxTree() {
+        return null;
+    }
 
+    @Override
+    public int getNumberOfNodesExpanded() {
+        return 0;
+    }
 }
