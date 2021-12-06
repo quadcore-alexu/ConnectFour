@@ -80,7 +80,7 @@ public class ConnectFourState implements State {
         if (state.length() != Game.ROWS * Game.COLUMNS) throw new NullPointerException("State length is invalid");
         char[][] res = new char[Game.ROWS][Game.COLUMNS];
         for (int i = 0; i < state.length(); i++) {
-            res[i / Game.ROWS][i % Game.COLUMNS] = state.charAt(i);
+            res[i / Game.COLUMNS][i % Game.COLUMNS] = state.charAt(i);
         }
         return res;
     }
@@ -94,10 +94,117 @@ public class ConnectFourState implements State {
 
     }
 
-    private double getScore() {
-        //todo
-        return 0.0;
+    /**
+     * counts connected fours vertically, horizontally, and diagonally
+     * @return number of connected four
+     */
+    public double getScore() {
+        boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
+        boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
+        boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
+        char[][] state2D = to2dArray();
+        double score = 0;
+        for (int i = 0; i < Game.ROWS; i++) {
+            for (int j = 0; j < Game.COLUMNS; j++) {
+                if (state2D[i][j] == 'C') {
+                    if (!markedVertically[i][j]) {
+                        markedVertically[i][j] = true;
+                        score = score + countVertical(state2D, markedVertically, i, j, State.AI);
+                    }
+                    if (!markedHorizontally[i][j]) {
+                        markedHorizontally[i][j] = true;
+                        score = score + countHorizontal(state2D, markedHorizontally, i, j, State.AI);
+                    }
+
+                    if (!markedDiagonally[i][j]) {
+                        markedDiagonally[i][j] = true;
+                        score = score + countDiagonal(state2D, markedDiagonally, i, j, State.AI);
+                    }
+
+                }
+            }
+        }
+
+        return score;
     }
+
+    public int countVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        int countUp = 0;
+        int countDown = 0;
+        int rowIndex = row - 1;
+        while (rowIndex >= 0) {
+            if (state2D[rowIndex][col] != player || marked[rowIndex][col]) break;
+            marked[rowIndex][col] = true;
+            countUp++;
+            rowIndex--;
+        }
+        rowIndex = row + 1;
+
+        while (rowIndex < Game.ROWS) {
+            if (state2D[rowIndex][col] != player || marked[rowIndex][col]) break;
+            marked[rowIndex][col] = true;
+            countDown++;
+            rowIndex++;
+
+        }
+
+        int score = 1 + (countUp + countDown + 1 - 4);
+        return Math.max(score, 0);
+    }
+
+
+    public int countHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        int countLeft = 0;
+        int countRight = 0;
+        int colIndex = col - 1;
+        while (colIndex >= 0) {
+            if (state2D[row][colIndex] != player || marked[row][colIndex]) break;
+            marked[row][colIndex] = true;
+            countLeft++;
+            colIndex--;
+        }
+        colIndex = col + 1;
+
+        while (colIndex < Game.COLUMNS) {
+            if (state2D[row][colIndex] != player || marked[row][colIndex]) break;
+            marked[row][colIndex] = true;
+            countRight++;
+            colIndex++;
+
+        }
+
+        int score = 1 + (countRight + countLeft + 1 - 4);
+        return Math.max(score, 0);
+    }
+
+    public int countDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        int upDiagonal = 0;
+        int downDiagonal = 0;
+        int colIndex = col - 1;
+        int rowIndex = row - 1;
+        while (colIndex >= 0 && rowIndex >= 0) {
+            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
+            marked[rowIndex][colIndex] = true;
+            upDiagonal++;
+            colIndex--;
+            rowIndex--;
+        }
+        colIndex = col + 1;
+        rowIndex = row + 1;
+
+        while (colIndex < Game.COLUMNS && rowIndex < Game.ROWS) {
+            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
+            marked[rowIndex][colIndex] = true;
+            downDiagonal++;
+            colIndex++;
+            rowIndex++;
+
+        }
+
+        int score = 1 + (upDiagonal + downDiagonal + 1 - 4);
+        return Math.max(score, 0);
+    }
+
 
     @Override
     public boolean isTerminal() {
