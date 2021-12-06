@@ -4,10 +4,10 @@ import com.quadcore.connectfour.model.state.State;
 
 public class MinimaxWithPruning implements ConnectFourAI {
 
-    private final int DEPTH;
+    private final int depth;
 
     public MinimaxWithPruning(int depth) {
-        this.DEPTH = depth;
+        this.depth = depth;
     }
 
     @Override
