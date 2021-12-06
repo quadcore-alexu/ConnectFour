@@ -1,4 +1,9 @@
 package com.quadcore.connectfour.model.ai;
 
-public abstract class ConnectFourAI {
+import com.quadcore.connectfour.model.state.State;
+
+public interface ConnectFourAI {
+
+    State play(State state);
+
 }
