@@ -76,7 +76,8 @@ public class ConnectFourState implements State {
 
 
     private char[][] to2dArrayImp(String state) {
-        if (!isValidState(state)) throw new IllegalArgumentException("Invalid state");
+        if (state == null) throw new NullPointerException("State representation can't be null");
+        if (state.length() != Game.ROWS * Game.COLUMNS) throw new NullPointerException("State length is invalid");
         char[][] res = new char[Game.ROWS][Game.COLUMNS];
         for (int i = 0; i < state.length(); i++) {
             res[i / Game.ROWS][i % Game.COLUMNS] = state.charAt(i);

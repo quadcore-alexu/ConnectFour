@@ -19,7 +19,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
     public TreeNode play(State state) {
         if (state.isTerminal()) throw new IllegalArgumentException("Can't play on a terminal state");
         numberOfNodesExpanded = 1;
-        root = new TreeNode(state, null);
+        root = new TreeNode(state, null, TreeNode.Type.MAX);
         TreeNode optimalMove = null;
 
         double maxScore = Double.MIN_VALUE;
@@ -27,7 +27,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
         double beta = Double.MAX_VALUE;
 
         for (State s : state.getNeighbours()) {
-            TreeNode stateTreeNode = new TreeNode(s, root);
+            TreeNode stateTreeNode = new TreeNode(s, root, TreeNode.Type.MIN);
             double childVal = minimize(maxDepth - 1, stateTreeNode, alpha, beta);
             if (childVal > maxScore) {
                 maxScore = childVal;
@@ -35,7 +35,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
                 optimalMove = stateTreeNode;
             }
         }
-
+        root.setScore(maxScore);
         return optimalMove;
     }
 
@@ -46,12 +46,12 @@ public class MinimaxWithPruning implements ConnectFourAI {
 
         double max = Double.MIN_VALUE;
         for (State s : node.getState().getNeighbours()) {
-            TreeNode neighbourTreeNode = new TreeNode(s, node);
+            TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MIN);
             max = Math.max(max, this.minimize(depth - 1, neighbourTreeNode, alpha, beta));
             if (max > alpha) alpha = max;
             if (alpha >= beta) break;
         }
-
+        node.setScore(max);
         return max;
     }
 
@@ -62,18 +62,18 @@ public class MinimaxWithPruning implements ConnectFourAI {
 
         double min = Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours()) {
-            TreeNode neighbourTreeNode = new TreeNode(s, node);
+            TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MAX);
             min = Math.max(min, this.maximize(depth - 1, neighbourTreeNode, alpha, beta));
             if (min < beta) beta = min;
             if (alpha >= beta) break;
         }
-
+        node.setScore(min);
         return min;
     }
 
     @Override
     public TreeNode getMinimaxTree() {
-        if (root == null) throw new NullPointerException("Can't get minimax tree before making the play");
+        if (root == null) throw new NullPointerException("Can't get minimax tree before making a play");
         return root;
     }
 
