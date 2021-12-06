@@ -17,14 +17,15 @@ public class MinimaxWithPruning implements ConnectFourAI {
 
     @Override
     public TreeNode play(State state) {
+        if (state == null) throw new NullPointerException("State is null");
         if (state.isTerminal()) throw new IllegalArgumentException("Can't play on a terminal state");
         numberOfNodesExpanded = 1;
         root = new TreeNode(state, null, TreeNode.Type.MAX);
         TreeNode optimalMove = null;
 
-        double maxScore = Double.MIN_VALUE;
         double alpha = Double.MIN_VALUE;
         double beta = Double.MAX_VALUE;
+        double maxScore = Double.MIN_VALUE;
 
         for (State s : state.getNeighbours()) {
             TreeNode stateTreeNode = new TreeNode(s, root, TreeNode.Type.MIN);

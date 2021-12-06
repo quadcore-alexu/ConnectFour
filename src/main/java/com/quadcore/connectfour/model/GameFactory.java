@@ -11,16 +11,17 @@ public class GameFactory {
         WITHOUT_PRUNING
     }
 
-    private final GameFactory instance = new GameFactory();
+    private static final GameFactory instance = new GameFactory();
 
     private GameFactory() {
     }
 
-    public GameFactory getInstance() {
+    public static GameFactory getInstance() {
         return instance;
     }
 
-    public static Game createGame(GameType type, int depth) {
+    public Game createGame(GameType type, int depth) {
+        if (type == null) throw new NullPointerException("Type is null");
         ConnectFourAI computer;
         switch (type) {
             case WITH_PRUNING:

@@ -80,7 +80,7 @@ public class ConnectFourState implements State {
         if (state.length() != Game.ROWS * Game.COLUMNS) throw new NullPointerException("State length is invalid");
         char[][] res = new char[Game.ROWS][Game.COLUMNS];
         for (int i = 0; i < state.length(); i++) {
-            res[i / Game.ROWS][i % Game.COLUMNS] = state.charAt(i);
+            res[i / Game.COLUMNS][i % Game.COLUMNS] = state.charAt(i);
         }
         return res;
     }
@@ -102,6 +102,11 @@ public class ConnectFourState implements State {
     @Override
     public boolean isTerminal() {
         return !state.contains(String.valueOf(State.EMPTY));
+    }
+
+    @Override
+    public String getString() {
+        return state;
     }
 
     private boolean isValidState(String state) {
