@@ -4,7 +4,7 @@ import com.quadcore.connectfour.model.state.State;
 
 public class ConnectFourHeuristic implements Heuristic{
     @Override
-    public Double evaluate(State state) {
-        return null;
+    public double evaluate(State state) {
+        return 0.0;
     }
 }

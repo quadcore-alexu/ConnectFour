@@ -1,32 +1,34 @@
 package com.quadcore.connectfour.model.datastructures;
 
+import com.quadcore.connectfour.model.state.State;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class TreeNode<T> {
+public class TreeNode {
 
-    private final T value;
-    private final TreeNode<T> parent;
-    private final List<TreeNode<T>> children = new LinkedList<>();
+    private final State state;
+    private final TreeNode parent;
+    private final List<TreeNode> children = new LinkedList<>();
 
-    public TreeNode(T value, TreeNode<T> parent) {
-        this.value = value;
+    public TreeNode(State state, TreeNode parent) {
+        this.state = state;
         this.parent = parent;
     }
 
-    public T getValue() {
-        return value;
+    public State getState() {
+        return state;
     }
 
-    public TreeNode<T> getParent() {
+    public TreeNode getParent() {
         return parent;
     }
 
-    public List<TreeNode<T>> getChildren() {
+    public List<TreeNode> getChildren() {
         return children;
     }
 
-    public void addChild(TreeNode<T> child) {
+    public void addChild(TreeNode child) {
         children.add(child);
     }
 
