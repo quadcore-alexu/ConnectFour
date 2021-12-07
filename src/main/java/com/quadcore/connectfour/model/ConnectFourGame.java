@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 public class ConnectFourGame implements Game {
 
     public static final Logger LOGGER = LogManager.getLogger(ConnectFourGame.class);
-
     private final ConnectFourAI computer;
 
     public ConnectFourGame(ConnectFourAI computer) {
