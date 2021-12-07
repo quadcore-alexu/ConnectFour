@@ -4,11 +4,16 @@ import java.util.List;
 
 public interface State {
 
+    interface Score {
+        int getPlayerScore();
+        int getAIScore();
+    }
+
     char PLAYER = 'P';
     char AI = 'C';
     char EMPTY = '0';
 
-    double evaluate();
+    double evaluateHeuristic();
 
     char[][] to2dArray();
 
@@ -21,5 +26,7 @@ public interface State {
     boolean isTerminal();
 
     String getString();
+
+    Score getScore();
 
 }

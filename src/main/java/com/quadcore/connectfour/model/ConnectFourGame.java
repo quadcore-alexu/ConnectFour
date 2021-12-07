@@ -4,7 +4,12 @@ import com.quadcore.connectfour.model.ai.ConnectFourAI;
 import com.quadcore.connectfour.model.datastructures.TreeNode;
 import com.quadcore.connectfour.model.state.State;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 public class ConnectFourGame implements Game {
+
+    public static final Logger LOGGER = LogManager.getLogger(ConnectFourGame.class);
 
     private final ConnectFourAI computer;
 

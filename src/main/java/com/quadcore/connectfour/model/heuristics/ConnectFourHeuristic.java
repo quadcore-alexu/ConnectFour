@@ -5,6 +5,7 @@ import com.quadcore.connectfour.model.state.State;
 public class ConnectFourHeuristic implements Heuristic{
     @Override
     public double evaluate(State state) {
-        return 0.0;
+        State.Score score = state.getScore();
+        return (score.getAIScore() - score.getPlayerScore()) * 5000.0;
     }
 }

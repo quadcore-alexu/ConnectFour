@@ -10,6 +10,26 @@ import java.util.List;
 
 public class ConnectFourState implements State {
 
+    public static class ConnectFourScore implements Score {
+        private final int player;
+        private final int ai;
+
+        public ConnectFourScore(int player, int ai) {
+            this.player = player;
+            this.ai = ai;
+        }
+
+        @Override
+        public int getPlayerScore() {
+            return player;
+        }
+
+        @Override
+        public int getAIScore() {
+            return ai;
+        }
+    }
+
     private final Heuristic heuristic = new ConnectFourHeuristic();
     private final String state;
 
@@ -31,8 +51,7 @@ public class ConnectFourState implements State {
     }
 
     @Override
-    public double evaluate() {
-        if (isTerminal()) return getScore();
+    public double evaluateHeuristic() {
         return heuristic.evaluate(this);
     }
 
@@ -127,30 +146,31 @@ public class ConnectFourState implements State {
     /**
      * counts connected fours vertically, horizontally, and diagonally
      *
-     * @return number of connected four
+     * @return score of each player
      */
-    private double getScore() {
+    public Score getScore() {
         boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
         boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
         boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
         char[][] state2D = to2dArray();
-        double score = 0;
+        int playerScore = 0;
+        int aiScore = 0;
 
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
                 if (state2D[i][j] == State.AI) {
-                    score += testVertical(state2D, markedVertically, i, j, State.AI);
-                    score += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
-                    score += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
+                    aiScore += testVertical(state2D, markedVertically, i, j, State.AI);
+                    aiScore += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
+                    aiScore += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
                 } else if (state2D[i][j] == State.PLAYER) {
-                    score -= testVertical(state2D, markedVertically, i, j, State.PLAYER);
-                    score -= testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
-                    score -= testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
+                    playerScore += testVertical(state2D, markedVertically, i, j, State.PLAYER);
+                    playerScore += testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
+                    playerScore += testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
                 }
             }
         }
 
-        return score;
+        return new ConnectFourScore(playerScore, aiScore);
     }
 
     private int testVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
