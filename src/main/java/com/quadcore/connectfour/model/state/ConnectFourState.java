@@ -74,10 +74,17 @@ public class ConnectFourState implements State {
         return res;
     }
 
+    @Override
+    public boolean isTerminal() {
+        return !state.contains(String.valueOf(State.EMPTY));
+    }
+
+    @Override
+    public String getString() {
+        return state;
+    }
 
     private char[][] to2dArrayImp(String state) {
-        if (state == null) throw new NullPointerException("State representation can't be null");
-        if (state.length() != Game.ROWS * Game.COLUMNS) throw new NullPointerException("State length is invalid");
         char[][] res = new char[Game.ROWS][Game.COLUMNS];
         for (int i = 0; i < state.length(); i++) {
             res[i / Game.COLUMNS][i % Game.COLUMNS] = state.charAt(i);
@@ -94,33 +101,51 @@ public class ConnectFourState implements State {
 
     }
 
+    private boolean isValidState(String state) {
+        if (state == null) throw new NullPointerException("State representation can't be null");
+        if (state.length() != Game.ROWS * Game.COLUMNS) return false;
+        char[][] grid = to2dArrayImp(state);
+        for (int i = 0; i < Game.COLUMNS; i++) if (!isValidColumn(i, grid)) return false;
+        return true;
+    }
+
+    private boolean isValidColumn(int col, char[][] grid) {
+        int i = 0;
+        //skip all empty slots
+        for (; i < Game.ROWS; i++) {
+            if (grid[i][col] != State.EMPTY) break;
+        }
+
+        //check if there are any empty slots after a filled slot
+        for (; i < Game.ROWS; i++) {
+            if (grid[i][col] == State.EMPTY) return false;
+        }
+
+        return true;
+    }
+
     /**
      * counts connected fours vertically, horizontally, and diagonally
+     *
      * @return number of connected four
      */
-    public double getScore() {
+    private double getScore() {
         boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
         boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
         boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
         char[][] state2D = to2dArray();
         double score = 0;
+
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
-                if (state2D[i][j] == 'C') {
-                    if (!markedVertically[i][j]) {
-                        markedVertically[i][j] = true;
-                        score = score + countVertical(state2D, markedVertically, i, j, State.AI);
-                    }
-                    if (!markedHorizontally[i][j]) {
-                        markedHorizontally[i][j] = true;
-                        score = score + countHorizontal(state2D, markedHorizontally, i, j, State.AI);
-                    }
-
-                    if (!markedDiagonally[i][j]) {
-                        markedDiagonally[i][j] = true;
-                        score = score + countDiagonal(state2D, markedDiagonally, i, j, State.AI);
-                    }
-
+                if (state2D[i][j] == State.AI) {
+                    score += testVertical(state2D, markedVertically, i, j, State.AI);
+                    score += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
+                    score += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
+                } else if (state2D[i][j] == State.PLAYER) {
+                    score -= testVertical(state2D, markedVertically, i, j, State.PLAYER);
+                    score -= testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
+                    score -= testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
                 }
             }
         }
@@ -128,7 +153,31 @@ public class ConnectFourState implements State {
         return score;
     }
 
-    public int countVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+    private int testVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        if (!marked[row][col]) {
+            marked[row][col] = true;
+            return countVertical(state2D, marked, row, col, player);
+        }
+        return 0;
+    }
+
+    private int testHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        if (!marked[row][col]) {
+            marked[row][col] = true;
+            return countHorizontal(state2D, marked, row, col, player);
+        }
+        return 0;
+    }
+
+    private int testDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        if (!marked[row][col]) {
+            marked[row][col] = true;
+            return countDiagonal(state2D, marked, row, col, player);
+        }
+        return 0;
+    }
+
+    private int countVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
         int countUp = 0;
         int countDown = 0;
         int rowIndex = row - 1;
@@ -152,8 +201,7 @@ public class ConnectFourState implements State {
         return Math.max(score, 0);
     }
 
-
-    public int countHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+    private int countHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
         int countLeft = 0;
         int countRight = 0;
         int colIndex = col - 1;
@@ -177,7 +225,7 @@ public class ConnectFourState implements State {
         return Math.max(score, 0);
     }
 
-    public int countDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+    private int countDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
         int upDiagonal = 0;
         int downDiagonal = 0;
         int colIndex = col - 1;
@@ -203,40 +251,6 @@ public class ConnectFourState implements State {
 
         int score = 1 + (upDiagonal + downDiagonal + 1 - 4);
         return Math.max(score, 0);
-    }
-
-
-    @Override
-    public boolean isTerminal() {
-        return !state.contains(String.valueOf(State.EMPTY));
-    }
-
-    @Override
-    public String getString() {
-        return state;
-    }
-
-    private boolean isValidState(String state) {
-        if (state == null) throw new NullPointerException("State representation can't be null");
-        if (state.length() != Game.ROWS * Game.COLUMNS) return false;
-        char[][] grid = to2dArrayImp(state);
-        for (int i = 0; i < Game.COLUMNS; i++) if (!isValidColumn(i, grid)) return false;
-        return true;
-    }
-
-    private boolean isValidColumn(int col, char[][] grid) {
-        int i = 0;
-        //skip all empty slots
-        for (; i < Game.ROWS; i++) {
-            if (grid[i][col] != State.EMPTY) break;
-        }
-
-        //check if there are any empty slots after a filled slot
-        for (; i < Game.ROWS; i++) {
-            if (grid[i][col] == State.EMPTY) return false;
-        }
-
-        return true;
     }
 
 }

@@ -13,6 +13,8 @@ class ConnectFourStateTest {
 
     @Test
     void evaluate() {
+        State scoreState = new ConnectFourState("CPPPCCCCCPPPPCCCCPCPCCCCCCPPPCCCCPPPCPCCCP");
+        assertEquals(10,scoreState.evaluate());
     }
 
     @Test
