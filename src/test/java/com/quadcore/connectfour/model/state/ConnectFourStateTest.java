@@ -1,6 +1,5 @@
 package com.quadcore.connectfour.model.state;
 
-import com.quadcore.connectfour.model.ConnectFourGame;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,9 +14,9 @@ class ConnectFourStateTest {
 
     @Test
     void evaluate() {
-        ConnectFourGame.LOGGER.debug("Heyoooooo");
         State scoreState = new ConnectFourState("CPPPCCCCCPPPPCCCCPCPCCCCCCPPPCCCCPPPCPCCCP");
-        assertEquals(10, scoreState.evaluateHeuristic());
+        State.Score score = scoreState.getScore();
+        assertEquals(10, score.getAIScore() - score.getPlayerScore());
     }
 
     @Test

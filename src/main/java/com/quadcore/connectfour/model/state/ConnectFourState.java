@@ -55,6 +55,37 @@ public class ConnectFourState implements State {
         return heuristic.evaluate(this);
     }
 
+    /**
+     * counts connected fours vertically, horizontally, and diagonally
+     *
+     * @return score of each player
+     */
+    @Override
+    public Score getScore() {
+        boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
+        boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
+        boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
+        char[][] state2D = to2dArray();
+        int playerScore = 0;
+        int aiScore = 0;
+
+        for (int i = 0; i < Game.ROWS; i++) {
+            for (int j = 0; j < Game.COLUMNS; j++) {
+                if (state2D[i][j] == State.AI) {
+                    aiScore += testVertical(state2D, markedVertically, i, j, State.AI);
+                    aiScore += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
+                    aiScore += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
+                } else if (state2D[i][j] == State.PLAYER) {
+                    playerScore += testVertical(state2D, markedVertically, i, j, State.PLAYER);
+                    playerScore += testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
+                    playerScore += testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
+                }
+            }
+        }
+
+        return new ConnectFourScore(playerScore, aiScore);
+    }
+
     @Override
     public List<State> getNeighbours() {
         List<Integer> availableColumns = getAvailableColumns();
@@ -141,36 +172,6 @@ public class ConnectFourState implements State {
         }
 
         return true;
-    }
-
-    /**
-     * counts connected fours vertically, horizontally, and diagonally
-     *
-     * @return score of each player
-     */
-    public Score getScore() {
-        boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
-        boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
-        boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
-        char[][] state2D = to2dArray();
-        int playerScore = 0;
-        int aiScore = 0;
-
-        for (int i = 0; i < Game.ROWS; i++) {
-            for (int j = 0; j < Game.COLUMNS; j++) {
-                if (state2D[i][j] == State.AI) {
-                    aiScore += testVertical(state2D, markedVertically, i, j, State.AI);
-                    aiScore += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
-                    aiScore += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
-                } else if (state2D[i][j] == State.PLAYER) {
-                    playerScore += testVertical(state2D, markedVertically, i, j, State.PLAYER);
-                    playerScore += testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
-                    playerScore += testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
-                }
-            }
-        }
-
-        return new ConnectFourScore(playerScore, aiScore);
     }
 
     private int testVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
