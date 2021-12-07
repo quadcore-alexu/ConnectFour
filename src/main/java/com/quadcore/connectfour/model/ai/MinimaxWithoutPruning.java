@@ -3,6 +3,8 @@ package com.quadcore.connectfour.model.ai;
 import com.quadcore.connectfour.model.datastructures.TreeNode;
 import com.quadcore.connectfour.model.state.State;
 
+import java.util.Objects;
+
 public class MinimaxWithoutPruning implements ConnectFourAI {
 
     private final int maxDepth;
@@ -16,7 +18,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
     }
 
     @Override
-    public TreeNode play(State state) {
+    public State play(State state) {
         if (state == null) throw new NullPointerException("State is null");
         if (state.isTerminal()) throw new IllegalArgumentException("Can't play on a terminal state");
         numberOfNodesExpanded = 1;
@@ -34,7 +36,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
             }
         }
         root.setScore(maxScore);
-        return optimalMove;
+        return Objects.requireNonNull(optimalMove).getState();
     }
 
     private double maximize(int depth, TreeNode node) {

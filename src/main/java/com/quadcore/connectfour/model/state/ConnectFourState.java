@@ -99,7 +99,7 @@ public class ConnectFourState implements State {
     @Override
     public State getNextState(int col, char player) {
         char[][] grid = to2dArray();
-        if (grid[0][col] != State.EMPTY) throw new IllegalArgumentException("Can't play in full column");
+        if (grid[0][col] != State.EMPTY) throw new IllegalArgumentException("Can't play in a full column");
 
         //get last empty slot
         int i = 0;
