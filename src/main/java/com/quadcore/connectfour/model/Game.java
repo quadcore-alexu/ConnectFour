@@ -1,6 +1,7 @@
 package com.quadcore.connectfour.model;
 
 import com.quadcore.connectfour.model.datastructures.TreeNode;
+import com.quadcore.connectfour.model.state.State;
 
 public interface Game {
 
@@ -12,6 +13,8 @@ public interface Game {
     int playAI();
 
     TreeNode getMinimaxTree();
+
+    State.Score getCurrentScore();
 
     int getNumberOfNodesExpanded();
 

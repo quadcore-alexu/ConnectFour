@@ -6,10 +6,10 @@ import javafx.scene.shape.Circle;
 import static com.quadcore.connectfour.view.UIConstants.TILE_SIZE;
 
 public class Disc extends Circle {
-    private final boolean red;
-    public Disc(boolean red) {
-        super(TILE_SIZE / 2, red ? Color.RED : Color.YELLOW);
-        this.red = red;
+    private final boolean playerTurn;
+    public Disc(boolean playerTurn) {
+        super(TILE_SIZE / 2, playerTurn ? UIConstants.GOLD : UIConstants.SILVER);
+        this.playerTurn = playerTurn;
 
         setCenterX(TILE_SIZE / 2);
         setCenterY(TILE_SIZE / 2);

@@ -29,6 +29,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
 
         for (State s : state.getNeighbours()) {
             TreeNode stateTreeNode = new TreeNode(s, root, TreeNode.Type.MIN);
+            root.addChild(stateTreeNode);
             double childVal = minimize(maxDepth - 1, stateTreeNode);
             if (childVal > maxScore) {
                 maxScore = childVal;
@@ -47,6 +48,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         double max = Double.MIN_VALUE;
         for (State s : node.getState().getNeighbours()) {
             TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MIN);
+            node.addChild(neighbourTreeNode);
             max = Math.max(max, this.minimize(depth - 1, neighbourTreeNode));
         }
         node.setScore(max);
@@ -61,6 +63,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         double min = Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours()) {
             TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MAX);
+            node.addChild(neighbourTreeNode);
             min = Math.max(min, this.maximize(depth - 1, neighbourTreeNode));
         }
         node.setScore(min);

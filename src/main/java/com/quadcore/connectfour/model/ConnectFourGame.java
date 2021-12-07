@@ -37,6 +37,11 @@ public class ConnectFourGame implements Game {
     }
 
     @Override
+    public State.Score getCurrentScore() {
+        return state.getScore();
+    }
+
+    @Override
     public int getNumberOfNodesExpanded() {
         return computer.getNumberOfNodesExpanded();
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="main" style="-fx-background-color: #202020;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.quadcore.connectfour.view.TreeController">
+    <children>
+        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true">
+            <content>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

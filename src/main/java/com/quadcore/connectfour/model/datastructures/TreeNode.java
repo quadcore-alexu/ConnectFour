@@ -62,20 +62,20 @@ public class TreeNode {
             buffer.append(container.getPrefix());
             TreeNode node = container.getNode();
             String childrenPrefix = container.getChildrenPrefix();
-            if (!node.getState().isTerminal())
-                buffer.append(node.getState().getString()).append(" = ").append(node.type).append("(");
-            else buffer.append(node.getState().getString());
+            if (!node.getChildren().isEmpty())
+                buffer.append(node.getScore()).append(" = ").append(node.type).append("(");
+            else buffer.append(node.getScore());
             boolean flag = true;
             for (Iterator<TreeNode> it = node.children.iterator(); it.hasNext(); ) {
                 TreeNode next = it.next();
                 if (!flag) {
                     printStack.push(new NodeContainer(next, childrenPrefix + "├── ", childrenPrefix + "│   "));
-                    if (it.hasNext()) { buffer.append(next.getState().getString()).append(","); }
-                    else { buffer.append(next.getState().getString()).append(")"); }
+                    if (it.hasNext()) { buffer.append(next.getScore()).append(","); }
+                    else { buffer.append(next.getScore()).append(")"); }
                 } else {
                     flag = false;
                     printStack.push(new NodeContainer(next, childrenPrefix + "└── ", childrenPrefix + "    "));
-                    buffer.append(next.getState().getString()).append(",");
+                    buffer.append(next.getScore()).append(",");
                 }
             }
             buffer.append('\n');
