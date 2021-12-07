@@ -13,17 +13,17 @@ public class ConnectFourGame implements Game {
     }
 
     @Override
-    public State getNextState(State state) {
-        return null;
+    public TreeNode playAI(State state) {
+        return computer.play(state);
     }
 
     @Override
-    public TreeNode<State> getMinimaxTree() {
-        return null;
+    public TreeNode getMinimaxTree() {
+        return computer.getMinimaxTree();
     }
 
     @Override
-    public Integer getNumberOfNodesExpanded() {
-        return null;
+    public int getNumberOfNodesExpanded() {
+        return computer.getNumberOfNodesExpanded();
     }
 }

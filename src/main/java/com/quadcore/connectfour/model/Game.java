@@ -8,10 +8,10 @@ public interface Game {
     int ROWS = 6;
     int COLUMNS = 7;
 
-    State getNextState(State state);
+    TreeNode playAI(State state);
 
-    TreeNode<State> getMinimaxTree();
+    TreeNode getMinimaxTree();
 
-    Integer getNumberOfNodesExpanded();
+    int getNumberOfNodesExpanded();
 
 }
