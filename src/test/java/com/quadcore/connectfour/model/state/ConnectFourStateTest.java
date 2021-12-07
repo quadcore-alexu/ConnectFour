@@ -1,11 +1,13 @@
 package com.quadcore.connectfour.model.state;
 
+import com.quadcore.connectfour.model.ConnectFourGame;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConnectFourStateTest {
 
@@ -13,8 +15,9 @@ class ConnectFourStateTest {
 
     @Test
     void evaluate() {
+        ConnectFourGame.LOGGER.debug("Heyoooooo");
         State scoreState = new ConnectFourState("CPPPCCCCCPPPPCCCCPCPCCCCCCPPPCCCCPPPCPCCCP");
-        assertEquals(10,scoreState.evaluate());
+        assertEquals(10, scoreState.evaluate());
     }
 
     @Test
