@@ -6,6 +6,6 @@ public class ConnectFourHeuristic implements Heuristic{
     @Override
     public double evaluate(State state) {
         State.Score score = state.getScore();
-        return (score.getAIScore() - score.getPlayerScore()) * 5000.0;
+        return (score.getAIScore() - score.getPlayerScore()) * 5.0;
     }
 }

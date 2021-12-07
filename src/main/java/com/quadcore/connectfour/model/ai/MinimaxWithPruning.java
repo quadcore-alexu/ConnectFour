@@ -25,9 +25,9 @@ public class MinimaxWithPruning implements ConnectFourAI {
         root = new TreeNode(state, null, TreeNode.Type.MAX);
         TreeNode optimalMove = null;
 
-        double alpha = Double.MIN_VALUE;
+        double alpha = -Double.MAX_VALUE;
         double beta = Double.MAX_VALUE;
-        double maxScore = Double.MIN_VALUE;
+        double maxScore = -Double.MAX_VALUE;
 
         for (State s : state.getNeighbours()) {
             TreeNode stateTreeNode = new TreeNode(s, root, TreeNode.Type.MIN);
@@ -45,10 +45,13 @@ public class MinimaxWithPruning implements ConnectFourAI {
 
     private double maximize(int depth, TreeNode node, double alpha, double beta) {
         numberOfNodesExpanded++;
-        if (depth == 0 || node.getState().isTerminal())
-            return node.getState().evaluateHeuristic();
+        if (depth == 0 || node.getState().isTerminal()) {
+            double score = node.getState().evaluateHeuristic();
+            node.setScore(score);
+            return score;
+        }
 
-        double max = Double.MIN_VALUE;
+        double max = -Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours()) {
             TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MIN);
             node.addChild(neighbourTreeNode);
@@ -62,14 +65,17 @@ public class MinimaxWithPruning implements ConnectFourAI {
 
     private double minimize(int depth, TreeNode node, double alpha, double beta) {
         numberOfNodesExpanded++;
-        if (depth == 0 || node.getState().isTerminal())
-            return node.getState().evaluateHeuristic();
+        if (depth == 0 || node.getState().isTerminal()) {
+            double score = node.getState().evaluateHeuristic();
+            node.setScore(score);
+            return score;
+        }
 
         double min = Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours()) {
             TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MAX);
             node.addChild(neighbourTreeNode);
-            min = Math.max(min, this.maximize(depth - 1, neighbourTreeNode, alpha, beta));
+            min = Math.min(min, this.maximize(depth - 1, neighbourTreeNode, alpha, beta));
             if (min < beta) beta = min;
             if (alpha >= beta) break;
         }
