@@ -43,7 +43,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
     private double maximize(int depth, TreeNode node, double alpha, double beta) {
         numberOfNodesExpanded++;
         if (depth == 0 || node.getState().isTerminal())
-            return node.getState().evaluate();
+            return node.getState().evaluateHeuristic();
 
         double max = Double.MIN_VALUE;
         for (State s : node.getState().getNeighbours()) {
@@ -59,7 +59,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
     private double minimize(int depth, TreeNode node, double alpha, double beta) {
         numberOfNodesExpanded++;
         if (depth == 0 || node.getState().isTerminal())
-            return node.getState().evaluate();
+            return node.getState().evaluateHeuristic();
 
         double min = Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours()) {

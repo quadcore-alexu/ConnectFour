@@ -17,7 +17,7 @@ class ConnectFourStateTest {
     void evaluate() {
         ConnectFourGame.LOGGER.debug("Heyoooooo");
         State scoreState = new ConnectFourState("CPPPCCCCCPPPPCCCCPCPCCCCCCPPPCCCCPPPCPCCCP");
-        assertEquals(10, scoreState.evaluate());
+        assertEquals(10, scoreState.evaluateHeuristic());
     }
 
     @Test
