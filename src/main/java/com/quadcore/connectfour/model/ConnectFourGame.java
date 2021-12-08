@@ -51,4 +51,9 @@ public class ConnectFourGame implements Game {
         while (str1.charAt(i) == str2.charAt(i)) i++;
         return i;
     }
+
+    @Override
+    public boolean isTerminalState(){
+        return state.isTerminal();
+    }
 }

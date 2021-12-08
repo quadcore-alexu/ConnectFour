@@ -1,7 +1,9 @@
 package com.quadcore.connectfour.view;
 
+import com.quadcore.connectfour.model.ConnectFourGame;
 import com.quadcore.connectfour.model.Game;
 import com.quadcore.connectfour.model.GameFactory;
+import com.quadcore.connectfour.model.state.ConnectFourState;
 import com.quadcore.connectfour.model.state.State;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -154,6 +156,7 @@ public class GamePlayController {
 
         TranslateTransition animation = new TranslateTransition(Duration.seconds(0.5), disc);
         animation.setToY(row * (TILE_SIZE + 5) + TILE_SIZE / 4.0);
+        int finalRow = row;
         animation.setOnFinished(e -> {
             playerTurn = !playerTurn;
             if (!playerTurn) {
@@ -164,13 +167,31 @@ public class GamePlayController {
                 game.getMinimaxTree().print();
                 insertDisc(new Disc(playerTurn), computerColumn);
             } else {
-                // TODO: check if game is over
                 // update score
                 State.Score score = game.getCurrentScore();
                 playerLbl.setText(score.getPlayerScore()+"");
                 computerLbl.setText(score.getAIScore()+"");
                 // release lock
                 lock = false;
+
+                if (game.isTerminalState()){
+                    FXMLLoader fxmlLoader = new FXMLLoader(ConnectFourApplication.class.getResource("/com/quadcore/connectfour/game-over-view.fxml"));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load());
+                    } catch (IOException ioException) {
+                        System.err.println("Error in loading scene");
+                    }
+                    this.stage.setScene(scene);
+                    stage.setTitle("Game Over");
+                    stage.setScene(scene);
+                    GameOverController controller = fxmlLoader.getController();
+                    controller.showScore(Integer.parseInt(playerLbl.getText()), Integer.parseInt(computerLbl.getText()));
+                    controller.setStage(stage);
+                    this.stage.setWidth(600);
+                    this.stage.setHeight(400);
+
+                }
             }
         });
         animation.play();
