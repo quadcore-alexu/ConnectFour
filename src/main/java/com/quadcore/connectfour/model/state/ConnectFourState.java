@@ -193,7 +193,7 @@ public class ConnectFourState implements State {
     private int testDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
         if (!marked[row][col]) {
             marked[row][col] = true;
-            return countDiagonal(state2D, marked, row, col, player);
+            return countPositiveDiagonal(state2D, marked, row, col, player) + countNegativeDiagonal(state2D, marked, row, col, player);
         }
         return 0;
     }
@@ -246,7 +246,7 @@ public class ConnectFourState implements State {
         return Math.max(score, 0);
     }
 
-    private int countDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+    private int countPositiveDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
         int upDiagonal = 0;
         int downDiagonal = 0;
         int colIndex = col - 1;
@@ -267,6 +267,35 @@ public class ConnectFourState implements State {
             downDiagonal++;
             colIndex++;
             rowIndex++;
+
+        }
+
+        int score = 1 + (upDiagonal + downDiagonal + 1 - 4);
+        return Math.max(score, 0);
+    }
+
+
+    private int countNegativeDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
+        int upDiagonal = 0;
+        int downDiagonal = 0;
+        int colIndex = col - 1;
+        int rowIndex = row + 1;
+        while (colIndex >= 0 && rowIndex < Game.ROWS) {
+            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
+            marked[rowIndex][colIndex] = true;
+            upDiagonal++;
+            colIndex--;
+            rowIndex++;
+        }
+        colIndex = col + 1;
+        rowIndex = row - 1;
+
+        while (colIndex < Game.COLUMNS && rowIndex <= 0) {
+            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
+            marked[rowIndex][colIndex] = true;
+            downDiagonal++;
+            colIndex++;
+            rowIndex--;
 
         }
 
