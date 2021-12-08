@@ -117,7 +117,7 @@ public class GamePlayController {
             rect.setTranslateX(x * (TILE_SIZE + 5) + TILE_SIZE / 4.0);
             rect.setFill(Color.TRANSPARENT);
 
-            rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(0, 0, 255, 0.1)));
+            rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(0, 0, 0, 0.1)));
             rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
 
             final int column = x;
