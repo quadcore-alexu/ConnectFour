@@ -11,6 +11,7 @@ public interface Game {
     void playPlayer(int col);
 
     int playAI();
+    boolean isTerminalState();
 
     TreeNode getMinimaxTree();
 

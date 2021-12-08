@@ -22,9 +22,12 @@
                </font></Label>
             <Label layoutX="11.0" layoutY="119.0" prefHeight="32.0" prefWidth="106.0" text="Player's score" textFill="WHITE">
                <font>
-                  <Font name="Dubai Regular" size="18.0" />
+                  <Font name="Dubai Regular" size="17.0" />
                </font></Label>
-            <Label layoutX="11.0" layoutY="190.0" text="Computer's score" textFill="WHITE" />
+            <Label layoutX="11.0" layoutY="190.0" text="Computer's score" textFill="WHITE">
+               <font>
+                  <Font name="Dubai Regular" size="17.0" />
+               </font></Label>
             <ImageView fitHeight="52.0" fitWidth="67.0" layoutX="41.0" layoutY="20.0" onMouseClicked="#onBackBtnClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@backBtn.png" />
