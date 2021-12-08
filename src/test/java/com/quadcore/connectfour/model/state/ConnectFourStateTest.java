@@ -21,7 +21,7 @@ class ConnectFourStateTest {
 
     @Test
     void getNeighbours() {
-        List<State> neighbours = state.getNeighbours();
+        List<State> neighbours = state.getNeighbours(State.AI);
         List<String> strings = neighbours.stream().map(State::getString).collect(Collectors.toList());
         assertTrue(strings.contains("CPPPCC0CCPPPP0CCCPCPCCCCCCPPPCCCCPPPCPCCCP"));
         assertEquals(2, strings.size());

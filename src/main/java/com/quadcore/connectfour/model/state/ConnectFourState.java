@@ -87,11 +87,11 @@ public class ConnectFourState implements State {
     }
 
     @Override
-    public List<State> getNeighbours() {
+    public List<State> getNeighbours(char player) {
         List<Integer> availableColumns = getAvailableColumns();
         List<State> res = new LinkedList<>();
         for (int col : availableColumns) {
-            res.add(getNextState(col, State.AI));
+            res.add(getNextState(col, player));
         }
         return res;
     }

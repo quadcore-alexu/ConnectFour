@@ -17,7 +17,7 @@ public interface State {
 
     char[][] to2dArray();
 
-    List<State> getNeighbours();
+    List<State> getNeighbours(char player);
 
     State getNextState(int col, char player);
 
