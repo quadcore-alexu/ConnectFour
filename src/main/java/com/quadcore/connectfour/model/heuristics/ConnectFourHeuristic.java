@@ -10,7 +10,8 @@ public class ConnectFourHeuristic implements Heuristic {
     private static final int LVL3 = 40;
     private static final int LVL2 = 10;
     private static final double DEFENSIVE_FACTOR = 0.2;
-    private static final double OVERLAPPING_FACTOR = 0.05;
+    private static final double OVERLAPPING_FACTOR = 0.5;
+    private static final double SCORE_FACTOR =4;
 
 
     private char[][] state2D;
@@ -21,7 +22,7 @@ public class ConnectFourHeuristic implements Heuristic {
         state2D = state.to2dArray();
         double heuristic = 0;
         State.Score score = state.getScore();
-        heuristic += (score.getAIScore() - score.getPlayerScore()+(1+DEFENSIVE_FACTOR)) * LVL5*2;
+        heuristic += (score.getAIScore() - score.getPlayerScore()+(1+DEFENSIVE_FACTOR)) * LVL5*SCORE_FACTOR;
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
                 if (state2D[i][j] == State.EMPTY && isValidMove(i, j)) {
