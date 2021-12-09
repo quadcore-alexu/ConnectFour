@@ -24,19 +24,19 @@
       <font>
          <Font name="Dubai Regular" size="18.0" />
       </font></Label>
-      <Label fx:id="playerLbl" layoutX="209.0" layoutY="218.0" prefHeight="44.0" prefWidth="53.0" textFill="WHITE">
+      <Label fx:id="playerLbl" layoutX="209.0" layoutY="210.0" prefHeight="44.0" prefWidth="53.0" textFill="WHITE">
          <font>
             <Font name="Dubai Regular" size="24.0" />
          </font></Label>
-      <Label fx:id="computerLbl" layoutX="346.0" layoutY="227.0" prefHeight="35.0" prefWidth="61.0" textFill="WHITE">
+      <Label fx:id="computerLbl" layoutX="346.0" layoutY="210.0" prefHeight="44.0" prefWidth="61.0" textFill="WHITE">
          <font>
-            <Font size="24.0" />
+            <Font name="Dubai Regular" size="24.0" />
          </font></Label>
       <Label layoutX="274.0" layoutY="141.0" prefHeight="32.0" prefWidth="53.0" text="Score" textFill="WHITE">
          <font>
             <Font name="Dubai Regular" size="18.0" />
          </font></Label>
-      <ImageView fitHeight="76.0" fitWidth="319.0" layoutX="143.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="76.0" fitWidth="348.0" layoutX="143.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@gameOverBtn.png" />
          </image>
