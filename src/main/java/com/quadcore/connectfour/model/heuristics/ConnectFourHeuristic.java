@@ -6,7 +6,7 @@ import com.quadcore.connectfour.model.state.State;
 
 public class ConnectFourHeuristic implements Heuristic {
     private static final int LVL4 = 100;
-    private static final int LVL3 = 40;
+    private static final int LVL3 = 60;
     private static final int LVL2 = 10;
 
 
@@ -46,7 +46,7 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(count + 1);
+        return getHeuristicScore(count + 1,player);
     }
 
     private double getHorizontalEmptyEvaluation(int row, int col, char player) {
@@ -65,14 +65,13 @@ public class ConnectFourHeuristic implements Heuristic {
             colIndex++;
         }
 
-        return getHeuristicScore(rightCount + leftCount + 1);
+        return getHeuristicScore(rightCount + leftCount + 1,player);
     }
 
-    private int getHeuristicScore(int sum) {
-        //todo: add next move
+    private int getHeuristicScore(int sum,char player) {
         if (sum == 2) return LVL2;
         if (sum == 3) return LVL3;
-        if (sum == 4) return LVL4;
+        if (sum == 4) {if(player==State.PLAYER) return (int) (LVL4*1.1); else return LVL4;}
         return 0;
     }
 
@@ -96,7 +95,7 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(upDiagonal + downDiagonal + 1);
+        return getHeuristicScore(upDiagonal + downDiagonal + 1,player);
     }
 
     private double getNegativeDiagonalEvaluation(int row, int col, char player) {
@@ -119,7 +118,7 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(upDiagonal + downDiagonal + 1);
+        return getHeuristicScore(upDiagonal + downDiagonal + 1,player);
     }
 
     private boolean isValidMove(int row, int col) {
