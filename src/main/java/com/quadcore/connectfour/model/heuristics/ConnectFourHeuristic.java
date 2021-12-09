@@ -5,9 +5,9 @@ import com.quadcore.connectfour.model.state.State;
 
 
 public class ConnectFourHeuristic implements Heuristic {
-    private static final int LVL4 = 50;
-    private static final int LVL3 = 15;
-    private static final int LVL2 = 5;
+    private static final int LVL4 = 100;
+    private static final int LVL3 = 40;
+    private static final int LVL2 = 10;
 
 
     private char[][] state2D;
@@ -21,7 +21,7 @@ public class ConnectFourHeuristic implements Heuristic {
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
                 if (state2D[i][j] == State.EMPTY && isValidMove(i, j)) {
-                    heuristic += 1.1 * getEmptySlotEvaluation(i, j, State.AI);
+                    heuristic += getEmptySlotEvaluation(i, j, State.AI);
                     heuristic -= getEmptySlotEvaluation(i, j, State.PLAYER);
                 }
             }
@@ -72,7 +72,7 @@ public class ConnectFourHeuristic implements Heuristic {
         //todo: add next move
         if (sum == 2) return LVL2;
         if (sum == 3) return LVL3;
-        if (sum >= 4) return (sum - 3) * LVL4;
+        if (sum == 4) return LVL4;
         return 0;
     }
 
