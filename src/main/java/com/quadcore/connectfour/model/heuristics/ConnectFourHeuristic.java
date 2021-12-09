@@ -43,8 +43,9 @@ public class ConnectFourHeuristic implements Heuristic {
                 );
     }
 
-    private double getHeuristicScore(int run, int emptyLeft, int emptyRight,
+    private double getHeuristicScore(int runLeft, int runRight, int emptyLeft, int emptyRight,
                                      boolean canPlayLeft, boolean canPlayRight, char player) {
+        int run = 1 + runLeft + runRight;
         /*no way we can get 4*/
         if (run + emptyLeft + emptyRight < 4) return 0;
 
@@ -64,28 +65,22 @@ public class ConnectFourHeuristic implements Heuristic {
             return LVL3;
         }
 
-        /*two filled, empty both sides*/
-        if (run == 2 && emptyLeft > 0 && emptyRight > 0) {
-            if (canPlayLeft && canPlayRight) return LVL3;
-            if (canPlayLeft || canPlayRight) return LVL2;
-            return (3 * LVL2 + LVL3) / 4.0;
-        }
-        /*two filled, empty one sides*/
-        if (run == 2) {
-            if (canPlayLeft || canPlayRight) return LVL2;
-            return (3 * LVL2 + LVL3) / 4.0;
-        }
+        /*two filled*/
+        if (run == 2) return LVL2;
 
         if (run >= 4) {
-            if (player == State.PLAYER) return LVL5 * (1 + DEFENSIVE_FACTOR);
-            return LVL5;
+            int countFours = run - 3;
+            countFours -= Math.max(0, runLeft - 3);
+            countFours -= Math.max(0, runRight - 3);
+            if (player == State.PLAYER) return countFours * LVL5 * (1 + DEFENSIVE_FACTOR);
+            return countFours * LVL5;
         }
 
         return 0;
     }
 
     private double getVerticalEmptyEvaluation(int row, int col, char player) {
-        int count = 1;
+        int count = 0;
 
         int rowIndex = row + 1;
         while (rowIndex < Game.ROWS && state2D[rowIndex][col] == player) {
@@ -93,11 +88,12 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(count, row, 0, true, false, player);
+        return getHeuristicScore(0, count, row, 0, true, false, player);
     }
 
     private double getHorizontalEmptyEvaluation(int row, int col, char player) {
-        int count = 1;
+        int countLeft = 0;
+        int countRight = 0;
         int emptyLeft = 0;
         int emptyRight = 0;
         boolean canPlayLeft = false;
@@ -105,7 +101,7 @@ public class ConnectFourHeuristic implements Heuristic {
 
         int colIndex = col - 1;
         while (colIndex >= 0 && state2D[row][colIndex] == player) {
-            count++;
+            countLeft++;
             colIndex--;
         }
         if (colIndex >= 0 && state2D[row][colIndex] == State.EMPTY
@@ -117,7 +113,7 @@ public class ConnectFourHeuristic implements Heuristic {
 
         colIndex = col + 1;
         while (colIndex < Game.COLUMNS && state2D[row][colIndex] == player) {
-            count++;
+            countRight++;
             colIndex++;
         }
         if (colIndex < Game.COLUMNS && state2D[row][colIndex] == State.EMPTY
@@ -127,11 +123,12 @@ public class ConnectFourHeuristic implements Heuristic {
             colIndex++;
         }
 
-        return getHeuristicScore(count, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
+        return getHeuristicScore(countLeft, countRight, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
     }
 
     private double getPositiveDiagonalEvaluation(int row, int col, char player) {
-        int count = 1;
+        int countLeft = 0;
+        int countRight = 0;
         int emptyLeft = 0;
         int emptyRight = 0;
         boolean canPlayLeft = false;
@@ -140,7 +137,7 @@ public class ConnectFourHeuristic implements Heuristic {
         int colIndex = col + 1;
         int rowIndex = row - 1;
         while (colIndex < Game.COLUMNS && rowIndex >= 0 && state2D[rowIndex][colIndex] == player) {
-            count++;
+            countRight++;
             colIndex++;
             rowIndex--;
         }
@@ -155,7 +152,7 @@ public class ConnectFourHeuristic implements Heuristic {
         colIndex = col - 1;
         rowIndex = row + 1;
         while (colIndex >= 0 && rowIndex < Game.ROWS && state2D[rowIndex][colIndex] == player) {
-            count++;
+            countLeft++;
             colIndex--;
             rowIndex++;
         }
@@ -167,11 +164,12 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(count, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
+        return getHeuristicScore(countLeft, countRight, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
     }
 
     private double getNegativeDiagonalEvaluation(int row, int col, char player) {
-        int count = 1;
+        int countLeft = 0;
+        int countRight = 0;
         int emptyLeft = 0;
         int emptyRight = 0;
         boolean canPlayLeft = false;
@@ -180,7 +178,7 @@ public class ConnectFourHeuristic implements Heuristic {
         int colIndex = col - 1;
         int rowIndex = row - 1;
         while (colIndex >= 0 && rowIndex >= 0 && state2D[rowIndex][colIndex] == player) {
-            count++;
+            countLeft++;
             colIndex--;
             rowIndex--;
         }
@@ -195,7 +193,7 @@ public class ConnectFourHeuristic implements Heuristic {
         colIndex = col + 1;
         rowIndex = row + 1;
         while (colIndex < Game.COLUMNS && rowIndex < Game.ROWS && state2D[rowIndex][colIndex] == player) {
-            count++;
+            countRight++;
             colIndex++;
             rowIndex++;
         }
@@ -207,7 +205,7 @@ public class ConnectFourHeuristic implements Heuristic {
             rowIndex++;
         }
 
-        return getHeuristicScore(count, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
+        return getHeuristicScore(countLeft, countRight, emptyLeft, emptyRight, canPlayLeft, canPlayRight, player);
     }
 
     private boolean isValidMove(int row, int col) {
