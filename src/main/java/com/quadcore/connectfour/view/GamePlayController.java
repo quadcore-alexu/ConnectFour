@@ -147,8 +147,10 @@ public class GamePlayController {
         while (row >= 0 && getDisc(column, row).isPresent()) {
             row--;
         }
-        if (row < 0)
+        if (row < 0) {
+            lock = false;
             return;
+        }
 
         grid[column][row] = disc;
         discRoot.getChildren().add(disc);
@@ -179,6 +181,8 @@ public class GamePlayController {
                 lock = false;
 
                 if (game.isTerminalState()){
+                    System.out.println("Average processing time: " + game.getAvgProcessingTime() + " msec");
+                    System.out.println("Number of expanded nodes: " + game.getNumberOfNodesExpanded());
                     FXMLLoader fxmlLoader = new FXMLLoader(ConnectFourApplication.class.getResource("/com/quadcore/connectfour/game-over-view.fxml"));
                     Scene scene = null;
                     try {

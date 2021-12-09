@@ -14,6 +14,9 @@ public class ConnectFourGame implements Game {
 
     private final ConnectFourAI computer;
     private State state = new ConnectFourState();
+    private int turnCount = 0;
+    private double processingTime = 0;
+    double startTime, endTime;
 
     public ConnectFourGame(ConnectFourAI computer) {
         this.computer = computer;
@@ -25,7 +28,11 @@ public class ConnectFourGame implements Game {
     @Override
     public int playAI() {
         State oldState = state;
+        turnCount++;
+        startTime = System.currentTimeMillis();
         state = computer.play(state);
+        endTime = System.currentTimeMillis();
+        processingTime += endTime - startTime;
         return indexOfDifference(oldState.getString(), state.getString()) % Game.COLUMNS;
     }
 
@@ -53,5 +60,10 @@ public class ConnectFourGame implements Game {
     @Override
     public boolean isTerminalState(){
         return state.isTerminal();
+    }
+
+    @Override
+    public double getAvgProcessingTime(){
+        return processingTime/turnCount;
     }
 }

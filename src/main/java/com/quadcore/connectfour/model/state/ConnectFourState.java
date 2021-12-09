@@ -62,9 +62,6 @@ public class ConnectFourState implements State {
      */
     @Override
     public Score getScore() {
-        boolean[][] markedVertically = new boolean[Game.ROWS][Game.COLUMNS];
-        boolean[][] markedHorizontally = new boolean[Game.ROWS][Game.COLUMNS];
-        boolean[][] markedDiagonally = new boolean[Game.ROWS][Game.COLUMNS];
         char[][] state2D = to2dArray();
         int playerScore = 0;
         int aiScore = 0;

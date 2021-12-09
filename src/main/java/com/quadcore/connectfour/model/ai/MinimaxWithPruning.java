@@ -21,7 +21,7 @@ public class MinimaxWithPruning implements ConnectFourAI {
     public State play(State state) {
         if (state == null) throw new NullPointerException("State is null");
         if (state.isTerminal()) throw new IllegalArgumentException("Can't play on a terminal state");
-        numberOfNodesExpanded = 1;
+        numberOfNodesExpanded += 1;
         root = new TreeNode(state, null, TreeNode.Type.MAX);
         TreeNode optimalMove = null;
 

@@ -19,4 +19,6 @@ public interface Game {
 
     int getNumberOfNodesExpanded();
 
+    double getAvgProcessingTime();
+
 }

@@ -46,7 +46,7 @@ public class TreeNode {
     }
 
     public double getScore() {
-        return score;
+        return (double) Math.round(score * 100) / 100;
     }
 
     public void setScore(double score) {
@@ -80,8 +80,9 @@ public class TreeNode {
                 }
             }
             buffer.append('\n');
+            System.out.print(buffer.toString());
+            buffer.setLength(0);
         }
-        ConnectFourGame.LOGGER.debug(buffer.toString());
     }
 
     static class NodeContainer {
