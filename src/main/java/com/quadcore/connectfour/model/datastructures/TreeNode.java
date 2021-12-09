@@ -75,7 +75,8 @@ public class TreeNode {
                 } else {
                     flag = false;
                     printStack.push(new NodeContainer(next, childrenPrefix + "└── ", childrenPrefix + "    "));
-                    buffer.append(next.getScore()).append(",");
+                    if (it.hasNext()) { buffer.append(next.getScore()).append(","); }
+                    else { buffer.append(next.getScore()).append(")"); }
                 }
             }
             buffer.append('\n');

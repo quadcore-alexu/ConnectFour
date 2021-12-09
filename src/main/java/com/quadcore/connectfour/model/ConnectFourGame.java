@@ -20,9 +20,7 @@ public class ConnectFourGame implements Game {
     }
 
     @Override
-    public void playPlayer(int col) {
-        state = state.getNextState(col, State.PLAYER);
-    }
+    public void playPlayer(int col) { state = state.getNextState(col, State.PLAYER); }
 
     @Override
     public int playAI() {

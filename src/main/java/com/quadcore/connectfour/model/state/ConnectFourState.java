@@ -72,13 +72,9 @@ public class ConnectFourState implements State {
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
                 if (state2D[i][j] == State.AI) {
-                    aiScore += testVertical(state2D, markedVertically, i, j, State.AI);
-                    aiScore += testHorizontal(state2D, markedHorizontally, i, j, State.AI);
-                    aiScore += testDiagonal(state2D, markedDiagonally, i, j, State.AI);
+                    aiScore += countSlotConnections(state2D, i, j, State.AI);
                 } else if (state2D[i][j] == State.PLAYER) {
-                    playerScore += testVertical(state2D, markedVertically, i, j, State.PLAYER);
-                    playerScore += testHorizontal(state2D, markedHorizontally, i, j, State.PLAYER);
-                    playerScore += testDiagonal(state2D, markedDiagonally, i, j, State.PLAYER);
+                    playerScore += countSlotConnections(state2D, i, j, State.PLAYER);
                 }
             }
         }
@@ -172,6 +168,42 @@ public class ConnectFourState implements State {
         }
 
         return true;
+    }
+
+    private int countSlotConnections(char[][] state2D, int row, int col, char player) {
+        if (row == 0 )
+        if (state2D[row][col] != player)
+            return 0;
+        int connections = 0;
+        int i;
+        for (i = 0; i < 4 && row - i >= 0; i++) {
+            if (state2D[row-i][col] != player)
+                break;
+        }
+        if (i == 4) connections++;
+
+        i = 0;
+        for (i = 0; i < 4 && col - i >= 0; i++) {
+            if (state2D[row][col-i] != player)
+                break;
+        }
+        if (i == 4) connections++;
+
+        i = 0;
+        for (i = 0; i < 4 && row - i >= 0 && col - i >= 0; i++) {
+            if (state2D[row-i][col-i] != player)
+                break;
+        }
+        if (i == 4) connections++;
+
+        i = 0;
+        for (i = 0; i < 4 && row - i >= 0 && col + i < Game.COLUMNS; i++) {
+            if (state2D[row-i][col+i] != player)
+                break;
+        }
+        if (i == 4) connections++;
+
+        return connections;
     }
 
     private int testVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {

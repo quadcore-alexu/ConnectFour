@@ -17,7 +17,7 @@ public class ConnectFourHeuristic implements Heuristic {
         state2D = state.to2dArray();
         double heuristic = 0;
         State.Score score = state.getScore();
-        heuristic += (score.getAIScore() * 1.1 - score.getPlayerScore()) * LVL4;
+        heuristic += (score.getAIScore() - score.getPlayerScore()) * LVL4;
         for (int i = 0; i < Game.ROWS; i++) {
             for (int j = 0; j < Game.COLUMNS; j++) {
                 if (state2D[i][j] == State.EMPTY && isValidMove(i, j)) {

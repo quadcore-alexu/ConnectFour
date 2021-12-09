@@ -16,7 +16,8 @@ class ConnectFourStateTest {
     void evaluate() {
         State scoreState = new ConnectFourState("CPPPCCCCCPPPPCCCCPCPCCCCCCPPPCCCCPPPCPCCCP");
         State.Score score = scoreState.getScore();
-        assertEquals(10, score.getAIScore() - score.getPlayerScore());
+        assertEquals(14, score.getAIScore());
+        assertEquals(3, score.getPlayerScore());
     }
 
     @Test

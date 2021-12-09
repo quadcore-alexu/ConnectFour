@@ -162,6 +162,10 @@ public class GamePlayController {
             if (!playerTurn) {
                 // Call computer turn and get computer move
                 game.playPlayer(column);
+                // update score
+                State.Score score = game.getCurrentScore();
+                playerLbl.setText(score.getPlayerScore()+"");
+                computerLbl.setText(score.getAIScore()+"");
                 // Call insert disc to the computer turn
                 int computerColumn = game.playAI();
                 game.getMinimaxTree().print();
