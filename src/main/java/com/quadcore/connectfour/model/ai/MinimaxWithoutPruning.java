@@ -22,13 +22,13 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
         if (state == null) throw new NullPointerException("State is null");
         if (state.isTerminal()) throw new IllegalArgumentException("Can't play on a terminal state");
         numberOfNodesExpanded += 1;
-        root = new TreeNode(state, null, TreeNode.Type.MAX);
+        root = new TreeNode(state, TreeNode.Type.MAX);
         TreeNode optimalMove = null;
 
         double maxScore = -Double.MAX_VALUE;
 
         for (State s : state.getNeighbours(State.AI)) {
-            TreeNode stateTreeNode = new TreeNode(s, root, TreeNode.Type.MIN);
+            TreeNode stateTreeNode = new TreeNode(s, TreeNode.Type.MIN);
             root.addChild(stateTreeNode);
             double childVal = minimize(maxDepth - 1, stateTreeNode);
             if (childVal > maxScore) {
@@ -50,7 +50,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
 
         double max = -Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours(State.AI)) {
-            TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MIN);
+            TreeNode neighbourTreeNode = new TreeNode(s, TreeNode.Type.MIN);
             node.addChild(neighbourTreeNode);
             max = Math.max(max, this.minimize(depth - 1, neighbourTreeNode));
         }
@@ -68,7 +68,7 @@ public class MinimaxWithoutPruning implements ConnectFourAI {
 
         double min = Double.MAX_VALUE;
         for (State s : node.getState().getNeighbours(State.PLAYER)) {
-            TreeNode neighbourTreeNode = new TreeNode(s, node, TreeNode.Type.MAX);
+            TreeNode neighbourTreeNode = new TreeNode(s, TreeNode.Type.MAX);
             node.addChild(neighbourTreeNode);
             min = Math.min(min, this.maximize(depth - 1, neighbourTreeNode));
         }

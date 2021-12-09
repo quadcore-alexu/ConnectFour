@@ -5,25 +5,23 @@ import com.quadcore.connectfour.model.datastructures.TreeNode;
 import com.quadcore.connectfour.model.state.ConnectFourState;
 import com.quadcore.connectfour.model.state.State;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 public class ConnectFourGame implements Game {
-
-    public static final Logger LOGGER = LogManager.getLogger(ConnectFourGame.class);
 
     private final ConnectFourAI computer;
     private State state = new ConnectFourState();
     private int turnCount = 0;
     private double processingTime = 0;
-    double startTime, endTime;
+    double startTime;
+    double endTime;
 
     public ConnectFourGame(ConnectFourAI computer) {
         this.computer = computer;
     }
 
     @Override
-    public void playPlayer(int col) { state = state.getNextState(col, State.PLAYER); }
+    public void playPlayer(int col) {
+        state = state.getNextState(col, State.PLAYER);
+    }
 
     @Override
     public int playAI() {
@@ -58,12 +56,12 @@ public class ConnectFourGame implements Game {
     }
 
     @Override
-    public boolean isTerminalState(){
+    public boolean isTerminalState() {
         return state.isTerminal();
     }
 
     @Override
-    public double getAvgProcessingTime(){
-        return processingTime/turnCount;
+    public double getAvgProcessingTime() {
+        return processingTime / turnCount;
     }
 }

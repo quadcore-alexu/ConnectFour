@@ -168,9 +168,7 @@ public class ConnectFourState implements State {
     }
 
     private int countSlotConnections(char[][] state2D, int row, int col, char player) {
-        if (row == 0 )
-        if (state2D[row][col] != player)
-            return 0;
+        if (row == 0 && state2D[row][col] != player) return 0;
         int connections = 0;
         int i;
         for (i = 0; i < 4 && row - i >= 0; i++) {
@@ -179,21 +177,18 @@ public class ConnectFourState implements State {
         }
         if (i == 4) connections++;
 
-        i = 0;
         for (i = 0; i < 4 && col - i >= 0; i++) {
             if (state2D[row][col-i] != player)
                 break;
         }
         if (i == 4) connections++;
 
-        i = 0;
         for (i = 0; i < 4 && row - i >= 0 && col - i >= 0; i++) {
             if (state2D[row-i][col-i] != player)
                 break;
         }
         if (i == 4) connections++;
 
-        i = 0;
         for (i = 0; i < 4 && row - i >= 0 && col + i < Game.COLUMNS; i++) {
             if (state2D[row-i][col+i] != player)
                 break;
@@ -201,135 +196,6 @@ public class ConnectFourState implements State {
         if (i == 4) connections++;
 
         return connections;
-    }
-
-    private int testVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        if (!marked[row][col]) {
-            marked[row][col] = true;
-            return countVertical(state2D, marked, row, col, player);
-        }
-        return 0;
-    }
-
-    private int testHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        if (!marked[row][col]) {
-            marked[row][col] = true;
-            return countHorizontal(state2D, marked, row, col, player);
-        }
-        return 0;
-    }
-
-    private int testDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        if (!marked[row][col]) {
-            marked[row][col] = true;
-            return countNegativeDiagonal(state2D, marked, row, col, player) + countPositiveDiagonal(state2D, marked, row, col, player);
-        }
-        return 0;
-    }
-
-    private int countVertical(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        int countUp = 0;
-        int countDown = 0;
-
-        int rowIndex = row - 1;
-        while (rowIndex >= 0) {
-            if (state2D[rowIndex][col] != player || marked[rowIndex][col]) break;
-            marked[rowIndex][col] = true;
-            countUp++;
-            rowIndex--;
-        }
-
-        rowIndex = row + 1;
-        while (rowIndex < Game.ROWS) {
-            if (state2D[rowIndex][col] != player || marked[rowIndex][col]) break;
-            marked[rowIndex][col] = true;
-            countDown++;
-            rowIndex++;
-        }
-
-        int score = 1 + (countUp + countDown + 1 - 4);
-        return Math.max(score, 0);
-    }
-
-    private int countHorizontal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        int countLeft = 0;
-        int countRight = 0;
-
-        int colIndex = col - 1;
-        while (colIndex >= 0) {
-            if (state2D[row][colIndex] != player || marked[row][colIndex]) break;
-            marked[row][colIndex] = true;
-            countLeft++;
-            colIndex--;
-        }
-
-        colIndex = col + 1;
-        while (colIndex < Game.COLUMNS) {
-            if (state2D[row][colIndex] != player || marked[row][colIndex]) break;
-            marked[row][colIndex] = true;
-            countRight++;
-            colIndex++;
-        }
-
-        int score = 1 + (countRight + countLeft + 1 - 4);
-        return Math.max(score, 0);
-    }
-
-    private int countNegativeDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        int upDiagonal = 0;
-        int downDiagonal = 0;
-
-        int colIndex = col - 1;
-        int rowIndex = row - 1;
-        while (colIndex >= 0 && rowIndex >= 0) {
-            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
-            marked[rowIndex][colIndex] = true;
-            upDiagonal++;
-            colIndex--;
-            rowIndex--;
-        }
-
-        colIndex = col + 1;
-        rowIndex = row + 1;
-        while (colIndex < Game.COLUMNS && rowIndex < Game.ROWS) {
-            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
-            marked[rowIndex][colIndex] = true;
-            downDiagonal++;
-            colIndex++;
-            rowIndex++;
-        }
-
-        int score = 1 + (upDiagonal + downDiagonal + 1 - 4);
-        return Math.max(score, 0);
-    }
-
-
-    private int countPositiveDiagonal(char[][] state2D, boolean[][] marked, int row, int col, char player) {
-        int upDiagonal = 0;
-        int downDiagonal = 0;
-
-        int colIndex = col - 1;
-        int rowIndex = row + 1;
-        while (colIndex >= 0 && rowIndex < Game.ROWS) {
-            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
-            marked[rowIndex][colIndex] = true;
-            upDiagonal++;
-            colIndex--;
-            rowIndex++;
-        }
-
-        colIndex = col + 1;
-        rowIndex = row - 1;
-        while (colIndex < Game.COLUMNS && rowIndex >= 0) {
-            if (state2D[rowIndex][colIndex] != player || marked[rowIndex][colIndex]) break;
-            marked[rowIndex][colIndex] = true;
-            downDiagonal++;
-            colIndex++;
-            rowIndex--;
-        }
-
-        int score = 1 + (upDiagonal + downDiagonal + 1 - 4);
-        return Math.max(score, 0);
     }
 
 }

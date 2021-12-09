@@ -1,9 +1,11 @@
 package com.quadcore.connectfour.model.datastructures;
 
-import com.quadcore.connectfour.model.ConnectFourGame;
 import com.quadcore.connectfour.model.state.State;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TreeNode {
 
@@ -13,23 +15,17 @@ public class TreeNode {
     }
 
     private final State state;
-    private final TreeNode parent;
     private final List<TreeNode> children = new LinkedList<>();
     private final Type type;
     private double score;
 
-    public TreeNode(State state, TreeNode parent, Type type) {
+    public TreeNode(State state, Type type) {
         this.state = state;
-        this.parent = parent;
         this.type = type;
     }
 
     public State getState() {
         return state;
-    }
-
-    public TreeNode getParent() {
-        return parent;
     }
 
     public List<TreeNode> getChildren() {
@@ -70,17 +66,23 @@ public class TreeNode {
                 TreeNode next = it.next();
                 if (!flag) {
                     printStack.push(new NodeContainer(next, childrenPrefix + "├── ", childrenPrefix + "│   "));
-                    if (it.hasNext()) { buffer.append(next.getScore()).append(","); }
-                    else { buffer.append(next.getScore()).append(")"); }
+                    if (it.hasNext()) {
+                        buffer.append(next.getScore()).append(",");
+                    } else {
+                        buffer.append(next.getScore()).append(")");
+                    }
                 } else {
                     flag = false;
                     printStack.push(new NodeContainer(next, childrenPrefix + "└── ", childrenPrefix + "    "));
-                    if (it.hasNext()) { buffer.append(next.getScore()).append(","); }
-                    else { buffer.append(next.getScore()).append(")"); }
+                    if (it.hasNext()) {
+                        buffer.append(next.getScore()).append(",");
+                    } else {
+                        buffer.append(next.getScore()).append(")");
+                    }
                 }
             }
             buffer.append('\n');
-            System.out.print(buffer.toString());
+            System.out.print(buffer);
             buffer.setLength(0);
         }
     }
@@ -96,10 +98,16 @@ public class TreeNode {
             this.childrenPrefix = childrenPrefix;
         }
 
-        public TreeNode getNode() { return node; }
+        public TreeNode getNode() {
+            return node;
+        }
 
-        public String getPrefix() { return prefix; }
+        public String getPrefix() {
+            return prefix;
+        }
 
-        public String getChildrenPrefix() { return childrenPrefix; }
+        public String getChildrenPrefix() {
+            return childrenPrefix;
+        }
     }
 }
